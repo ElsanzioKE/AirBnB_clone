@@ -20,8 +20,9 @@ defines all common attributes and methods for other classes:
             the method will be the first piece of serialization
 """
 
-from datetime import datetime
+from datetime import datetime as dt
 import uuid
+import models
 from models import storage
 
 
@@ -32,8 +33,8 @@ class BaseModel:
         """
         time_format = "%Y-%m-%dT%H:%M:%S.%f"
         self.id = str(uuid.uuid4())
-        self.created_at = datetime.utcnow()
-        self.updated_at = datetime.utcnow()
+        self.created_at = dt.utcnow()
+        self.updated_at = dt.utcnow()
 
         # check if kwargs is not None and not empty
         if kwargs is not None and kwargs != {}:
@@ -50,15 +51,7 @@ class BaseModel:
                     # set other attributes
                     setattr(self, key, value)
         
-        else:
-            self.id = str(uuid.uuid4())
-            self.created_at = dt.now()
-            self.updated_at = dt.now()
-            models.storage.new(self)
-
-        self.id = str(uuid.uuid4())
-        self.created_at = dt.now()
-        self.updated_at = dt.now()
+        models.storage.new(self)
 
     def save(self):
         """
