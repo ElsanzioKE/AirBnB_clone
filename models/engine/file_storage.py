@@ -38,6 +38,12 @@ class FileStorage:
 
         classes = {
                 'BaseModel': BaseModel
+                'User': User
+                'Amenity': Amenity
+                'Place': Place
+                'Review': Review
+                'State': State
+                'City': City
                 }
         try:
             temp = {}
