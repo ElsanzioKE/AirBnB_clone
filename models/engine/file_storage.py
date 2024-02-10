@@ -1,6 +1,8 @@
 #!/usr/bin/python3
 """This module defines a class storage in JSON format"""
 import json
+import os
+
 
 class FileStorage:
     """This class manages storage in the Airbnb modes in json format"""
@@ -27,15 +29,21 @@ class FileStorage:
     def reload(self):
         """Loads storage dictioanry from file"""
         from models.base_model import BaseModel
+        from models.user import User
+        from models.amenity import Amenity
+        from models.place import Place
+        from models.review import Review
+        from models.state import State
+        from models.city import City
 
         classes = {
                 'BaseModel': BaseModel
                 }
         try:
             temp = {}
-            with open (FileStorage.__file_path, 'r') as f:
+            with open(FileStorage.__file_path, 'r') as f:
                 temp = json.load(f)
                 for key, val in temp.items():
                     self.all()[key] = classes[val['__class__']](**val)
-        except json.JSONDecodeError:
+        except Exception:
             pass

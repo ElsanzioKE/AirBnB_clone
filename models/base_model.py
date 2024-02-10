@@ -1,23 +1,40 @@
 #!/usr/bin/python3
+        
+"""
+defines all common attributes and methods for other classes:
+    1. public attributes:
+        id: assign with uuid when instance is
+        created to always have a unique id
+        created _at: assign using datetime
+        updated_at: assign using datetime
+    2. __str__: should prnt clsnam id dict
+    3. public methods:
+        save: updates the updated_at with datetime
+        to_dict: returns a dictionary containing all keys/values
+        of __dict__ of the instance:
+            use self.__dict__ only attributes are returned
+            key __class__ must be added to the dict
+            with classneme of the object
+            created_at and updated_at must be
+            converted to a string in ISO format:
+            the method will be the first piece of serialization
+"""
+
+from datetime import datetime
 import uuid
-import models
-from datetime import datetime as dt
 from models import storage
+
+
 class BaseModel:
-    """Base class representing a model with a unique identifier, creation time, and last update time.
-
-    Attributes:
-        id (str): Unique identifier generated using uuid.uuid4().
-        created_at (datetime): Date and time when the instance is created.
-        updated_at (datetime): Date and time when the instance is last updated.
-    """
-
     def __init__(self, *args, **kwargs):
         """
-        Initializes a new instance of the BaseModel class.
+        BaseModel constructor
         """
         time_format = "%Y-%m-%dT%H:%M:%S.%f"
-        
+        self.id = str(uuid.uuid4())
+        self.created_at = datetime.utcnow()
+        self.updated_at = datetime.utcnow()
+
         # check if kwargs is not None and not empty
         if kwargs is not None and kwargs != {}:
             # iterate through key-value pairs in kwargs
@@ -73,5 +90,4 @@ class BaseModel:
         """
         class_name = self.__class__.__name__
         return f"[{class_name}] ({self.id}) {self.__dict__}"
-
 
